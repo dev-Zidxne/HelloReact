@@ -20,7 +20,7 @@ function App(props) {
   ));
 
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
-  const headingText = `${taskList.length} ${tasksNoun} /Appremaining`;
+  const headingText = `${taskList.length} ${tasksNoun} remaining`;
 
   return (
     <div>
