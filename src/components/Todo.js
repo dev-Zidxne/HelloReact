@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 
-export default function Todo(props) {
+function Todo(props) {
   const [isEditing, setEditing] = useState(false);
+
   const [newName, setNewName] = useState("");
+
   const handleChange = (e) => {
     setNewName(e.target.value);
   };
-
   const handleSubmit = (e) => {
-    e.preventDeafult();
+    e.preventDefault();
     props.editTask(props.id, newName);
     setNewName("");
     setEditing(false);
@@ -82,3 +83,5 @@ export default function Todo(props) {
     </div>
   );
 }
+
+export default Todo;

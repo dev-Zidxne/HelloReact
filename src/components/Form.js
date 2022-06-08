@@ -12,7 +12,7 @@ const Form = (props) => {
     setName("");
   };
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <h2 className="label-wrapper">
         <label htmlFor="new-todo-input" className="label__lg">
           What needs to be done?
@@ -25,6 +25,7 @@ const Form = (props) => {
         name="text"
         autoComplete="off"
         value={name}
+        onChange={handleChange}
       />
       <button type="submit" className="btn btn__primary btn__lg">
         Add
