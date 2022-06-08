@@ -24,7 +24,7 @@ function App(props) {
 
   return (
     <div>
-      <div className="todoapp stack-large">
+      <div className="todoapp stack-lare">
         <h1>TodoMatic</h1>
         <Form addTask={addTask} />
         <FilterButton />
