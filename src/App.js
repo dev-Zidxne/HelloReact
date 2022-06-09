@@ -1,8 +1,11 @@
 import Todo from "./components/Todo.js";
 import Form from "./components/Form.js";
 import FilterButton from "./components/FilterButton.js";
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { nanoid } from "nanoid";
+import usePrevious from "./components/Previous.js";
+
+<usePrevious />;
 
 const FILTER_MAP = {
   All: () => true,
@@ -69,13 +72,25 @@ function App(props) {
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
   const headingText = `${taskList.length} ${tasksNoun} remaining`;
 
+  const listHeadingRef = useRef(null);
+
+  const prevTaskLength = usePrevious(tasks.length);
+
+  useEffect(() => {
+    if (tasks.length - prevTaskLength === -1) {
+      listHeadingRef.current.focus();
+    }
+  }, [tasks.length, prevTaskLength]);
+
   return (
     <div>
       <div className="todoapp stack-lare">
         <h1>TodoMatic</h1>
         <Form addTask={addTask} />
         {filterList}
-        <h2 id="list-heading">{headingText}</h2>
+        <h2 id="list-heading" tabIndex="1" ref={listHeadingRef}>
+          {headingText}
+        </h2>
         <ul
           role="list"
           className="todo-list stack-large stack-exception"

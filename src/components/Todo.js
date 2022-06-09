@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import usePrevious from "./Previous";
+
+<usePrevious />;
 
 function Todo(props) {
   const [isEditing, setEditing] = useState(false);
+  const wasEditing = usePrevious(isEditing);
 
   const [newName, setNewName] = useState("");
 
@@ -15,6 +19,9 @@ function Todo(props) {
     setEditing(false);
   };
 
+  const editFieldRef = useRef(null);
+  const editButtonRef = useRef(null);
+
   const editingTemplate = (
     <form className="stack-small" onSubmit={handleSubmit}>
       <div className="form-group">
@@ -27,6 +34,7 @@ function Todo(props) {
           type="text"
           value={newName}
           onChange={handleChange}
+          ref={editFieldRef}
         />
       </div>
       <div className="btn-group">
@@ -34,6 +42,7 @@ function Todo(props) {
           type="button"
           classsName="btn-todo-cancel"
           onClick={() => setEditing(false)}
+          ref={editButtonRef}
         >
           Cancel
           <span className="visually-hidden">renaming {props.name}</span>
@@ -61,7 +70,12 @@ function Todo(props) {
         </label>
       </div>
       <div className="btn-group">
-        <button type="button" className="btn" onClick={() => setEditing(true)}>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => setEditing(true)}
+          ref={editButtonRef}
+        >
           Edit <span className="visually-hidden">{props.name}</span>
         </button>
         <button
@@ -74,6 +88,15 @@ function Todo(props) {
       </div>
     </div>
   );
+
+  useEffect(() => {
+    if (!wasEditing && isEditing) {
+      editFieldRef.current.focus();
+    }
+    if (wasEditing && !isEditing) {
+      editButtonRef.current.focus();
+    }
+  }, [wasEditing, isEditing]);
 
   return (
     <div>
